@@ -1,7 +1,8 @@
 from flask import Flask, request, jsonify, redirect
 from ocr import parse_receipt
 import os
-from utils import setup_firebase, dowload_file, write_ocr
+from utils import setup_firebase, write_ocr
+import base64
 
 
 app = Flask(__name__)
@@ -16,13 +17,19 @@ def hello_world():
     return "<p>Hello, World!</p>"
 
 
-@app.route("/ocr", methods=['POST'])
+@app.route("/ocr", methods=["POST"])
 def ocr():
     data = request.get_json()
-    file = 'imgs/' + data["uri"]
-    dowload_file(data["uri"], file)
-    result = parse_receipt(file)
+    filename = 'imgs/' + data["filename"]
+    result = parse_receipt(filename)
     print(result)
-    push_ref = write_ocr(data['uri'], result)
+    push_ref = write_ocr(result)
 
     return redirect("https://google.com", code=301)
+
+@app.route("/upload", methods=["POST"])
+def upload_image():
+    file = request.files['file']
+    file.save("./imgs/" + file.filename)
+
+    return 'file saved successfully', 200

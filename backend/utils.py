@@ -20,7 +20,7 @@ def dowload_file(blob_name, destination):
     blob.download_to_filename(destination)
 
 
-def write_ocr(uri, ocr_result):
+def write_ocr(ocr_result):
     ref = db.reference("/receipts/")
     products = []
     for key, value in ocr_result.items():
@@ -36,7 +36,6 @@ def write_ocr(uri, ocr_result):
 
     return ref.push(
         {
-            "photo_uri": uri,
             "total": ocr_result['TOTAL']['price'],
             "products": products
         }
