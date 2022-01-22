@@ -24,6 +24,7 @@ def ocr():
     result = parse_receipt(filename)
     print(result)
     push_ref = write_ocr(result)
+    print(push_ref.key)
 
     return redirect("https://google.com", code=301)
 

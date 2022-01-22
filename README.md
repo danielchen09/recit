@@ -18,15 +18,16 @@
 ## Getting Started
 
 ### Installation
-1. Create virtual environment
+1. Go to `backend` directory
+2. Create virtual environment
    ```sh
    python3 -m venv env
    ```
-2. Activate virtual environment
+3. Activate virtual environment
    ```sh
    source env/bin/activate
    ```
-3. Install python packages
+4. Install python packages
    ```sh
    pip install -r requirements.txt
    ```

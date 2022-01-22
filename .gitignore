@@ -1,4 +1,4 @@
-env/*
+backend/env/*
 backend/api_key/*
 backend/imgs/*
 backend/__pycache__/*
