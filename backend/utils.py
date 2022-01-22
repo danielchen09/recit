@@ -27,12 +27,13 @@ def write_ocr(uri, ocr_result):
         if key == "TOTAL":
             continue
 
-    products.append(
-        {
-            "name": key,
-            "price": value["price"] * value["qty"]
-        }
-    )
+        products.append(
+            {
+                "name": key,
+                "price": value["price"] * value["qty"]
+            }
+        )
+
     return ref.push(
         {
             "photo_uri": uri,
