@@ -1,0 +1,44 @@
+import firebase_admin
+from firebase_admin import db
+from google.cloud import storage
+import os
+
+
+def setup_firebase():
+    cred_obj = firebase_admin.credentials.Certificate(
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
+
+    default_app = firebase_admin.initialize_app(cred_obj, {
+        "databaseURL": "https://recit-1742e-default-rtdb.firebaseio.com/"
+    })
+
+def dowload_file(blob_name, destination):
+    storage_client = storage.Client()
+    bucket = storage_client.bucket("recit-1742e.appspot.com")
+    blob = bucket.blob(blob_name)
+    blob.download_to_filename(destination)
+
+def write_ocr(uri, ocr_result):
+    ref = db.reference("/receipts/")
+    ref.push(
+        {
+            "photo_uri": uri, 
+            "total": ocr_result['total'],
+            "products": [
+                {
+                    "name": "Milk", 
+                    "price": 10,
+                    "users": [
+                        {
+                            "name": "Winnie",
+                            "qty": 1
+                        },
+                        {
+                            "name": "Daniel",
+                            "qty": 2
+                        }
+                    ]
+                }
+            ]
+        }
+    )

@@ -1,8 +1,6 @@
 import os
 import re
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath('api_key/recit-339006-22c537cac291.json')
-
 MIN_TEXT_LEN = 2
 MAX_TEXT_LEN = 20
 SPLIT_THRESHOLD = 40
