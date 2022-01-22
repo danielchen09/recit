@@ -68,15 +68,6 @@ def generate_item(raw_data):
         'price': price
     }
 
-# bounds = detect_text('imgs/237880506_319402293264065_3950863099988236330_n.jpg')
-# bounds = detect_text('imgs/239456377_1167790013743760_5376371282799389019_n.jpg')
-# bounds = detect_text('imgs/240400627_953078555241461_2086325353596572994_n.jpg')
-# bounds = detect_text('imgs/271444539_1092758391567580_5328614794881049298_n.jpg')
-# bounds = detect_text('imgs/271584576_376473660949125_4045385816272921141_n.jpg')
-# bounds = detect_text('imgs/271686130_652217512692928_2807764537634750669_n.jpg')
-# bounds = detect_text('imgs/271732175_920970361951537_4667307938951366310_n.jpg')
-# bounds = detect_text('imgs/271740618_318562186705622_3723177510778391907_n.jpg')
-
 
 def parse_receipt(path):
     bounds = sorted(detect_text(path), key=lambda x: x['center'][1])
