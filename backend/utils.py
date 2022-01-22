@@ -12,33 +12,31 @@ def setup_firebase():
         "databaseURL": "https://recit-1742e-default-rtdb.firebaseio.com/"
     })
 
+
 def dowload_file(blob_name, destination):
     storage_client = storage.Client()
     bucket = storage_client.bucket("recit-1742e.appspot.com")
     blob = bucket.blob(blob_name)
     blob.download_to_filename(destination)
 
+
 def write_ocr(uri, ocr_result):
     ref = db.reference("/receipts/")
-    ref.push(
+    products = []
+    for key, value in ocr_result.items():
+        if key == "TOTAL":
+            continue
+
+    products.append(
         {
-            "photo_uri": uri, 
-            "total": ocr_result['total'],
-            "products": [
-                {
-                    "name": "Milk", 
-                    "price": 10,
-                    "users": [
-                        {
-                            "name": "Winnie",
-                            "qty": 1
-                        },
-                        {
-                            "name": "Daniel",
-                            "qty": 2
-                        }
-                    ]
-                }
-            ]
+            "name": key,
+            "price": value["price"] * value["qty"]
+        }
+    )
+    return ref.push(
+        {
+            "photo_uri": uri,
+            "total": ocr_result['TOTAL']['price'],
+            "products": products
         }
     )
