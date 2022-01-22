@@ -4,15 +4,17 @@ import os
 from utils import setup_firebase, dowload_file, write_ocr
 
 
-
 app = Flask(__name__)
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath('api_key/recit-1742e-firebase-adminsdk-9smyz-f063fa23f0.json')
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath(
+    'api_key/recit-1742e-firebase-adminsdk-9smyz-f063fa23f0.json')
 setup_firebase()
+
 
 @app.route("/")
 def hello_world():
     return "<p>Hello, World!</p>"
+
 
 @app.route("/ocr", methods=['POST'])
 def ocr():

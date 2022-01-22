@@ -3,6 +3,7 @@ from firebase_admin import db
 from google.cloud import storage
 import os
 
+
 def setup_firebase():
     cred_obj = firebase_admin.credentials.Certificate(
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
@@ -11,11 +12,13 @@ def setup_firebase():
         "databaseURL": "https://recit-1742e-default-rtdb.firebaseio.com/"
     })
 
+
 def dowload_file(blob_name, destination):
     storage_client = storage.Client()
     bucket = storage_client.bucket("recit-1742e.appspot.com")
     blob = bucket.blob(blob_name)
     blob.download_to_filename(destination)
+
 
 def write_ocr(uri, ocr_result):
     ref = db.reference("/receipts/")
@@ -24,15 +27,15 @@ def write_ocr(uri, ocr_result):
         if key == "TOTAL":
             continue
 
-        products.append(
-            {
-                "name": key,
-                "price": value["price"] * value["qty"]
-            }
-        )
+    products.append(
+        {
+            "name": key,
+            "price": value["price"] * value["qty"]
+        }
+    )
     return ref.push(
         {
-            "photo_uri": uri, 
+            "photo_uri": uri,
             "total": ocr_result['TOTAL']['price'],
             "products": products
         }
