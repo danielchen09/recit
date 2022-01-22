@@ -3,7 +3,6 @@ from firebase_admin import db
 from google.cloud import storage
 import os
 
-
 def setup_firebase():
     cred_obj = firebase_admin.credentials.Certificate(
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
@@ -20,25 +19,21 @@ def dowload_file(blob_name, destination):
 
 def write_ocr(uri, ocr_result):
     ref = db.reference("/receipts/")
-    ref.push(
+    products = []
+    for key, value in ocr_result.items():
+        if key == "TOTAL":
+            continue
+
+        products.append(
+            {
+                "name": key,
+                "price": value["price"] * value["qty"]
+            }
+        )
+    return ref.push(
         {
             "photo_uri": uri, 
-            "total": ocr_result['total'],
-            "products": [
-                {
-                    "name": "Milk", 
-                    "price": 10,
-                    "users": [
-                        {
-                            "name": "Winnie",
-                            "qty": 1
-                        },
-                        {
-                            "name": "Daniel",
-                            "qty": 2
-                        }
-                    ]
-                }
-            ]
+            "total": ocr_result['TOTAL']['price'],
+            "products": products
         }
     )

@@ -1,7 +1,8 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from ocr import parse_receipt
 import os
-from utils import setup_firebase, dowload_file
+from utils import setup_firebase, dowload_file, write_ocr
+
 
 
 app = Flask(__name__)
@@ -19,5 +20,6 @@ def ocr():
     file = 'imgs/' + data["uri"]
     dowload_file(data["uri"], file)
     result = parse_receipt(file)
-    print(result)
-    return '', 200
+    push_ref = write_ocr(data['uri'], result)
+
+    return jsonify({"key": push_ref.key}), 200
