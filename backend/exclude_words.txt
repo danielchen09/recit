@@ -3,8 +3,7 @@ saved
 debit
 change
 sub total
+sub-total
 subtotal
 discount
 discounts
-taxable
-tax

@@ -30,7 +30,8 @@ def detect_text(path):
             continue
         vertices = ([(vertex.x, vertex.y) for vertex in text.bounding_poly.vertices])
         bounds.append({
-            'text': re.sub('[^a-zA-z0-9.]', '', text.description),
+            # 'text': re.sub('[^a-zA-z0-9.]', '', text.description),
+            'text': text.description,
             'center': ((vertices[0][0] + vertices[3][0]) / 2, (vertices[1][1] + vertices[2][1]) / 2)
         })
 
@@ -56,11 +57,15 @@ def generate_item(raw_data):
     for word in name:
         if word.lower() in EXCLUDE_WORDS:
             return None
+    if len(name) < 1:
+        return None
     name = ' '.join(name)
     if name.lower() in EXCLUDE_WORDS:
         return None
     if 'total' in name.lower():
         name = 'TOTAL'
+    if 'tax' in name.lower():
+        name = 'TAX'
     return {
         'name': name,
         'price': price
@@ -84,5 +89,17 @@ def parse_receipt(path):
                 items[item['name']]['qty'] += 1
             processing = []
         processing.append(bounds[i])
-
+    tax_percentage = 1
+    if 'TOTAL' not in items:
+        items['TOTAL'] = {
+            'price': sum(items[item]['price'] * items[item]['qty'] for item in items.keys() if item != 'TAX')
+                     + (items['TAX']['price'] if 'TAX' in items else 0),
+            'qty': 1
+        }
+    if 'TAX' in items:
+        tax_percentage = items['TOTAL']['price'] / (items['TOTAL']['price'] - items['TAX']['price'])
+        del items['TAX']
+    for item in items.keys():
+        if item != 'TOTAL':
+            items[item]['price'] *= tax_percentage
     return items
