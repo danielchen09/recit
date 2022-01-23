@@ -7,8 +7,8 @@ import base64
 
 app = Flask(__name__)
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath(
-    '/home/leechangwook0621/recit-1742e-firebase-adminsdk-9smyz-f063fa23f0.json')
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath(
+#     '/home/leechangwook0621/recit-1742e-firebase-adminsdk-9smyz-f063fa23f0.json')
 setup_firebase()
 
 
