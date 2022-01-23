@@ -67,7 +67,7 @@ def generate_item(raw_data):
     if 'tax' in name.lower():
         name = 'TAX'
     return {
-        'name': name,
+        'name': re.sub('^[0-9]+', '', name),
         'price': price
     }
 
