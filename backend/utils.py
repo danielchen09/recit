@@ -42,5 +42,8 @@ def write_ocr(ocr_result, owner):
         }
     )
 
-# def add_user(receipts_id, product_idx, name, qty):
-#     ref = db.reference("/receipts/" + receipts_id + "/products/" + product_idx + "/")
+
+def add_user(receipts_id, product_idx, name, qty):
+    ref = db.reference("/receipts/" + receipts_id +
+                       "/products/" + product_idx + "/")
+    print(ref.get())
