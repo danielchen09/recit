@@ -90,3 +90,4 @@ def add_user_to_receipt(receipts_id, name):
 
     if name not in users:
         users.append(name)
+        ref.child("users").set(users)
