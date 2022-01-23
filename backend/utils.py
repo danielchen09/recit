@@ -31,7 +31,7 @@ def write_ocr(ocr_result, owner):
         products.append(
             {
                 "name": key,
-                "price": value["price"] * value["qty"]
+                "price": round(value["price"] * value["qty"], 2)
             }
         )
 
