@@ -55,7 +55,7 @@ def get_user(users, name):
 def add_user(receipts_id, product_idx, name, qty):
     ref = db.reference("/receipts/" + receipts_id +
                        "/products/" + product_idx + "/")
-    data = json.load(ref.get())
+    data = ref.get()
     users = []
     if "users" in data:
         users = data["users"]
@@ -65,4 +65,6 @@ def add_user(receipts_id, product_idx, name, qty):
         users.append({"name": name, "qty": 0})
     
     users[index]["qty"] += 1
+
+    ref.child("users").setValue(users)
 
