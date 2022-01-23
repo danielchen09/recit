@@ -6,7 +6,7 @@ MAX_TEXT_LEN = 20
 SPLIT_THRESHOLD = 40
 is_price = re.compile('^[$-]?[0-9]+\\.[0-9][0-9]$')
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath('api_key/recit-1742e-firebase-adminsdk-9smyz-f063fa23f0.json')
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath('api_key/recit-1742e-firebase-adminsdk-9smyz-f063fa23f0.json')
 with open('exclude_words.txt', 'r') as f:
     EXCLUDE_WORDS = f.read().split('\n')
 
