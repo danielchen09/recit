@@ -33,7 +33,7 @@ def ocr():
 def add_user_product():
     data = request.get_json()
     add_user(data["receipt_id"], data["product_idx"],
-             data["name"], data["qty"])
+             data["name"])
 
     return '', 200
 

@@ -52,7 +52,7 @@ def get_user(users, name):
     return -1
 
 
-def add_user(receipts_id, product_idx, name, qty):
+def add_user(receipts_id, product_idx, name):
     ref = db.reference("/receipts/" + receipts_id +
                        "/products/" + product_idx + "/")
     data = ref.get()
@@ -60,7 +60,7 @@ def add_user(receipts_id, product_idx, name, qty):
     if "users" in data:
         users = data["users"]
 
-    index = get_user(users)
+    index = get_user(users, name)
     if index == -1:
         users.append({"name": name, "qty": 0})
     
