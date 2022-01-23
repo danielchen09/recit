@@ -71,3 +71,5 @@ def add_receipt_user():
 def set_done():
     data = request.get_json()
     set_receipt_to_done(data["receipt_id"])
+
+    return 'success', 200
