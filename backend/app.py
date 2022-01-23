@@ -18,18 +18,18 @@ def hello_world():
 
 @app.route("/ocr", methods=["POST"])
 def ocr():
-   data = request.get_json()
-   filename = 'imgs/' + data["filename"]
-   result = parse_receipt(filename)
+   file = request.files['file']
+   file.save("./imgs/" + file.filename)
+   result = parse_receipt("./imgs/" + file.filename)
    print(result)
    push_ref = write_ocr(result)
    print(push_ref.key)
 
-   return redirect("https://google.com", code=301)
+   return jsonify({"id": push_ref.key}), 200
 
-@app.route("/upload", methods=["POST"])
-def upload_image():
-   file = request.files['file']
-   file.save("./imgs/" + file.filename)
+# @app.route("/upload", methods=["POST"])
+# def upload_image():
+#    file = request.files['file']
+#    file.save("./imgs/" + file.filename)
 
-   return 'file saved successfully', 200
+#    return 'file saved successfully', 200
