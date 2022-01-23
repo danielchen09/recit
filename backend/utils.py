@@ -39,6 +39,7 @@ def write_ocr(ocr_result, owner):
         {
             "total": ocr_result['TOTAL']['price'],
             "owner": owner,
+            "done": False,
             "products": products,
             "users": [owner]
         }
