@@ -66,5 +66,5 @@ def add_user(receipts_id, product_idx, name):
     
     users[index]["qty"] += 1
 
-    ref.child("users").setValue(users)
+    ref.child("users").set(users)
 
