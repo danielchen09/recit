@@ -54,8 +54,8 @@ def get_user(users, name):
     return -1
 
 
-def add_user(receipts_id, product_idx, name):
-    ref = db.reference("/receipts/" + receipts_id +
+def add_user(receipt_id, product_idx, name):
+    ref = db.reference("/receipts/" + receipt_id +
                        "/products/" + str(product_idx) + "/")
     data = ref.get()
     users = []
@@ -71,8 +71,8 @@ def add_user(receipts_id, product_idx, name):
     ref.child("users").set(users)
 
 
-def remove_user(receipts_id, product_idx, name):
-    ref = db.reference("/receipts/" + receipts_id +
+def remove_user(receipt_id, product_idx, name):
+    ref = db.reference("/receipts/" + receipt_id +
                        "/products/" + str(product_idx) + "/")
     data = ref.get()
     users = data["users"]
@@ -85,10 +85,15 @@ def remove_user(receipts_id, product_idx, name):
 
         ref.child("users").set(users)
 
-def add_user_to_receipt(receipts_id, name):
-    ref = db.reference("/receipts/" + receipts_id + "/")
+def add_user_to_receipt(receipt_id, name):
+    ref = db.reference("/receipts/" + receipt_id + "/")
     users = ref.child("users").get()
 
     if name not in users:
         users.append(name)
         ref.child("users").set(users)
+
+def set_done(receipt_id):
+    ref = db.reference("/receipts/" + receipt_id + "/")
+    ref.child("done").set(True)
+

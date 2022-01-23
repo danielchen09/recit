@@ -65,3 +65,9 @@ def add_receipt_user():
     add_user_to_receipt(data["receipt_id"], data["name"].lower())
 
     return 'success', 200
+
+
+@app.route("done", methods=["POST"])
+def set_done():
+    data = request.get_json()
+    set_receipt_to_done(data["receipt_id"])
