@@ -65,7 +65,7 @@ def add_user(receipt_id, product_idx, name):
     index = get_user(users, name)
     if index == -1:
         users.append({"name": name, "qty": 0})
-    
+
     users[index]["qty"] += 1
 
     ref.child("users").set(users)
@@ -88,6 +88,7 @@ def remove_user(receipt_id, product_idx, name):
 
         ref.child("users").set(users)
 
+
 def add_user_to_receipt(receipt_id, name):
     ref = db.reference("/receipts/" + receipt_id + "/")
     users = ref.child("users").get()
@@ -96,7 +97,7 @@ def add_user_to_receipt(receipt_id, name):
         users.append(name)
         ref.child("users").set(users)
 
+
 def set_receipt_to_done(receipt_id):
     ref = db.reference("/receipts/" + receipt_id + "/")
     ref.child("done").set(True)
-
