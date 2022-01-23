@@ -29,7 +29,7 @@ def ocr():
 
     result = parse_receipt(filename)
     print(result)
-    push_ref = write_ocr(result, request.form["owner"])
+    push_ref = write_ocr(result, request.form["owner"].lower())
     print(push_ref.key)
 
     return jsonify({"id": push_ref.key}), 200

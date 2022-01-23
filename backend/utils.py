@@ -55,7 +55,7 @@ def get_user(users, name):
 
 def add_user(receipts_id, product_idx, name):
     ref = db.reference("/receipts/" + receipts_id +
-                       "/products/" + product_idx + "/")
+                       "/products/" + str(product_idx) + "/")
     data = ref.get()
     users = []
     if "users" in data:
@@ -72,7 +72,7 @@ def add_user(receipts_id, product_idx, name):
 
 def remove_user(receipts_id, product_idx, name):
     ref = db.reference("/receipts/" + receipts_id +
-                       "/products/" + product_idx + "/")
+                       "/products/" + str(product_idx) + "/")
     data = ref.get()
     users = data["users"]
 
