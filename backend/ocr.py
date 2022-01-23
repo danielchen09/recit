@@ -6,6 +6,7 @@ MAX_TEXT_LEN = 20
 SPLIT_THRESHOLD = 40
 is_price = re.compile('^[$-]?[0-9]+\\.[0-9][0-9]$')
 
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.abspath('api_key/recit-1742e-firebase-adminsdk-9smyz-f063fa23f0.json')
 with open('exclude_words.txt', 'r') as f:
     EXCLUDE_WORDS = f.read().split('\n')
 
@@ -21,25 +22,20 @@ def detect_text(path):
 
     image = vision.Image(content=content)
 
-    response = client.text_detection(image=image)
-    texts = response.text_annotations
-
+    response = client.document_text_detection(image=image)
+    documents = response.full_text_annotation
     bounds = []
-    for text in texts:
-        if len(text.description) < MIN_TEXT_LEN or len(text.description) > MAX_TEXT_LEN:
-            continue
-        vertices = ([(vertex.x, vertex.y) for vertex in text.bounding_poly.vertices])
-        bounds.append({
-            # 'text': re.sub('[^a-zA-z0-9.]', '', text.description),
-            'text': text.description,
-            'center': ((vertices[0][0] + vertices[3][0]) / 2, (vertices[1][1] + vertices[2][1]) / 2)
-        })
-
-    if response.error.message:
-        raise Exception(
-            '{}\nFor more info on error messages, check: '
-            'https://cloud.google.com/apis/design/errors'.format(
-                response.error.message))
+    for block in documents.pages[0].blocks:
+        for paragraph in block.paragraphs:
+            for word in paragraph.words:
+                text = ''
+                for symbol in word.symbols:
+                    text += symbol.text
+                vertices = ([(vertex.x, vertex.y) for vertex in symbol.bounding_box.vertices])
+                bounds.append({
+                    'text': text,
+                    'center': ((vertices[0][0] + vertices[3][0]) / 2, (vertices[1][1] + vertices[2][1]) / 2)
+                })
 
     return bounds
 
@@ -79,6 +75,7 @@ def parse_receipt(path):
     for i in range(1, len(bounds)):
         if bounds[i]['center'][1] - bounds[i - 1]['center'][1] > SPLIT_THRESHOLD:
             processing = sorted(processing, key=lambda x: x['center'][0])
+            print(' '.join(it['text'] for it in processing))
             item = generate_item(processing)
             if item:
                 if item['name'] not in items:
