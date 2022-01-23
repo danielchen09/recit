@@ -76,8 +76,7 @@ def remove_user(receipts_id, product_idx, name):
     users = data["users"]
 
     index = get_user(users, name)
-    print(index)
-    if index == -1:
+    if index != -1:
         users[index]["qty"] -= 1
         if users[index]["qty"] == 0:
             users.pop(index)
