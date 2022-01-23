@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify, redirect
 from ocr import parse_receipt
 import os
 from utils import setup_firebase, write_ocr
-import base64
 
 
 app = Flask(__name__)
