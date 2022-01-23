@@ -75,6 +75,9 @@ def remove_user(receipt_id, product_idx, name):
     ref = db.reference("/receipts/" + receipt_id +
                        "/products/" + str(product_idx) + "/")
     data = ref.get()
+    if "user" not in data:
+        return
+
     users = data["users"]
 
     index = get_user(users, name)
