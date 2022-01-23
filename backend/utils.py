@@ -86,7 +86,7 @@ def remove_user(receipts_id, product_idx, name):
 
 def add_user_to_receipt(receipts_id, name):
     ref = db.reference("/receipts/" + receipts_id + "/")
-    users = ref.get("users").get()
+    users = ref.child("users").get()
 
     if name not in users:
         users.append(name)
