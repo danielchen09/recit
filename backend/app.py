@@ -2,7 +2,7 @@ from crypt import methods
 from flask import Flask, request, jsonify, redirect
 from ocr import parse_receipt
 import os
-from utils import setup_firebase, write_ocr, add_user
+from utils import setup_firebase, write_ocr, add_user, remove_user
 
 
 app = Flask(__name__)
@@ -41,7 +41,7 @@ def select_product():
 @app.route("/deselect", methods=["POST"])
 def deselect_product():
     data = request.get_json()
-    add_user(data["receipt_id"], data["product_idx"],
+    remove_user(data["receipt_id"], data["product_idx"],
              data["name"])
 
     return '', 200
