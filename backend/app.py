@@ -1,8 +1,8 @@
-from crypt import methods
 from flask import Flask, request, jsonify, redirect
 from ocr import parse_receipt
 import os
 from utils import setup_firebase, write_ocr, add_user, remove_user
+from PIL import Image, ImageOps
 
 
 app = Flask(__name__)
@@ -20,8 +20,13 @@ def hello_world():
 @app.route("/ocr", methods=["POST"])
 def ocr():
     file = request.files["file"]
-    file.save("./imgs/" + file.filename)
-    result = parse_receipt("./imgs/" + file.filename)
+    filename = "./imgs/" + file.filename
+    file.save(filename)
+    image = Image.open(filename)
+    fixed_image = ImageOps.exif_transpose(image)
+    fixed_image.save(filename, quality=30) 
+    
+    result = parse_receipt(filename)
     print(result)
     push_ref = write_ocr(result, request.form["owner"])
     print(push_ref.key)
