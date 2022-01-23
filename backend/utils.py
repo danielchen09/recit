@@ -2,6 +2,7 @@ import firebase_admin
 from firebase_admin import db
 from google.cloud import storage
 import os
+import json
 
 
 def setup_firebase():
@@ -43,7 +44,24 @@ def write_ocr(ocr_result, owner):
     )
 
 
+def get_user(users, name):
+    for i, user in enumerate(users):
+        if user["name"] == name:
+            return i
+
+    return -1
+
+
 def add_user(receipts_id, product_idx, name, qty):
     ref = db.reference("/receipts/" + receipts_id +
                        "/products/" + product_idx + "/")
-    print(ref.get())
+    data = json.load(ref.get())
+    users = []
+    if "users" in data:
+        users = data["users"]
+
+    if (index := get_user(users)) == -1:
+        users.append({"name": name, "qty": 0})
+    
+    users[index]["qty"] += 1
+
