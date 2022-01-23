@@ -5,10 +5,14 @@ import os
 
 
 def setup_firebase():
-    # cred_obj = firebase_admin.credentials.Certificate(
-    #     os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
+    cred_obj = firebase_admin.credentials.Certificate(
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
 
-    cred_obj = firebase_admin.credentials.ApplicationDefault().get_credential()
+    # cred_obj = firebase_admin.credentials.ApplicationDefault().get_credential()
+    # app_options = {"projectId": "recit-1742e",
+    #                "databaseURL": "https://recit-1742e-default-rtdb.firebaseio.com/",
+    #                "serviceAccountId": "firebase-adminsdk-9smyz"}
+    # default_app = firebase_admin.initialize_app(options=app_options)
 
     default_app = firebase_admin.initialize_app(cred_obj, {
         "databaseURL": "https://recit-1742e-default-rtdb.firebaseio.com/"
