@@ -19,13 +19,14 @@ def hello_world():
 
 @app.route("/ocr", methods=["POST"])
 def ocr():
-   file = request.files["file"]
-   print(request.files["owner"])
+   print("test")
+   print(request.form["owner"])
    print(request.get_json())
+   file = request.files["file"]
    file.save("./imgs/" + file.filename)
    result = parse_receipt("./imgs/" + file.filename)
    print(result)
-   push_ref = write_ocr(result, request.files["owner"])
+   push_ref = write_ocr(result, request.form["owner"])
    print(push_ref.key)
 
    return jsonify({"id": push_ref.key}), 200
