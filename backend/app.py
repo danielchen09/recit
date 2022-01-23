@@ -1,7 +1,8 @@
+from crypt import methods
 from flask import Flask, request, jsonify, redirect
 from ocr import parse_receipt
 import os
-from utils import setup_firebase, write_ocr, add_user, remove_user
+from utils import setup_firebase, write_ocr, add_user, remove_user, add_user_to_receipt
 from PIL import Image, ImageOps
 
 
@@ -24,8 +25,8 @@ def ocr():
     file.save(filename)
     image = Image.open(filename)
     fixed_image = ImageOps.exif_transpose(image)
-    fixed_image.save(filename, quality=30) 
-    
+    fixed_image.save(filename, quality=30)
+
     result = parse_receipt(filename)
     print(result)
     push_ref = write_ocr(result, request.form["owner"])
@@ -40,18 +41,26 @@ def select_product():
     add_user(data["receipt_id"], data["product_idx"],
              data["name"])
 
-    return '', 200
+    return 'success', 200
 
 
 @app.route("/deselect", methods=["POST"])
 def deselect_product():
     data = request.get_json()
     remove_user(data["receipt_id"], data["product_idx"],
-             data["name"])
+                data["name"])
 
-    return '', 200
+    return 'success', 200
 
 
 @app.route("/redirect", methods=["GET"])
 def redirect_uri():
     return redirect("exp://28-rrp.alwinyen.recit.exp.direct", 301)
+
+
+@app.route("/add-users", methods=["POST"])
+def add_receipt_user():
+    data = request.get_json()
+    add_user_to_receipt(data["receipt_id"], data["name"])
+
+    return 'success', 200

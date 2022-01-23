@@ -39,7 +39,8 @@ def write_ocr(ocr_result, owner):
         {
             "total": ocr_result['TOTAL']['price'],
             "owner": owner,
-            "products": products
+            "products": products,
+            "users": [owner]
         }
     )
 
@@ -82,3 +83,10 @@ def remove_user(receipts_id, product_idx, name):
             users.pop(index)
 
         ref.child("users").set(users)
+
+def add_user_to_receipt(receipts_id, name):
+    ref = db.reference("/receipts/" + receipts_id + "/")
+    users = ref.get("users").get()
+
+    if name not in users:
+        users.append(name)
