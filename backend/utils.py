@@ -8,13 +8,7 @@ def setup_firebase():
     cred_obj = firebase_admin.credentials.Certificate(
         os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
 
-    # cred_obj = firebase_admin.credentials.ApplicationDefault().get_credential()
-    # app_options = {"projectId": "recit-1742e",
-    #                "databaseURL": "https://recit-1742e-default-rtdb.firebaseio.com/",
-    #                "serviceAccountId": "firebase-adminsdk-9smyz"}
-    # default_app = firebase_admin.initialize_app(options=app_options)
-
-    default_app = firebase_admin.initialize_app(cred_obj, {
+    firebase_admin.initialize_app(cred_obj, {
         "databaseURL": "https://recit-1742e-default-rtdb.firebaseio.com/"
     })
 
@@ -26,7 +20,7 @@ def dowload_file(blob_name, destination):
     blob.download_to_filename(destination)
 
 
-def write_ocr(ocr_result):
+def write_ocr(ocr_result, owner):
     ref = db.reference("/receipts/")
     products = []
     for key, value in ocr_result.items():
@@ -43,6 +37,7 @@ def write_ocr(ocr_result):
     return ref.push(
         {
             "total": ocr_result['TOTAL']['price'],
+            "owner": owner,
             "products": products
         }
     )
