@@ -1,4 +1,7 @@
-# recit
+# Recit
+
+### Try it out!
+[exp://28-rrp.alwinyen.recit.exp.direct](exp://28-rrp.alwinyen.recit.exp.direct)
 
 ### Prerequisites
 
