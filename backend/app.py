@@ -39,7 +39,7 @@ def ocr():
 def select_product():
     data = request.get_json()
     add_user(data["receipt_id"], data["product_idx"],
-             data["name"])
+             data["name"].lower())
 
     return 'success', 200
 
@@ -48,7 +48,7 @@ def select_product():
 def deselect_product():
     data = request.get_json()
     remove_user(data["receipt_id"], data["product_idx"],
-                data["name"])
+                data["name"].lower())
 
     return 'success', 200
 
@@ -61,6 +61,6 @@ def redirect_uri():
 @app.route("/add-users", methods=["POST"])
 def add_receipt_user():
     data = request.get_json()
-    add_user_to_receipt(data["receipt_id"], data["name"])
+    add_user_to_receipt(data["receipt_id"], data["name"].lower())
 
     return 'success', 200
