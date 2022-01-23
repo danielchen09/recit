@@ -20,6 +20,8 @@ def hello_world():
 @app.route("/ocr", methods=["POST"])
 def ocr():
    file = request.files["file"]
+   print(request.files["owner"])
+   print(request.get_json())
    file.save("./imgs/" + file.filename)
    result = parse_receipt("./imgs/" + file.filename)
    print(result)
