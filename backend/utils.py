@@ -81,4 +81,5 @@ def remove_user(receipts_id, product_idx, name):
         if users[index]["qty"] == 0:
             users.pop(index)
 
+    print(users)
     ref.child("users").set(users)
