@@ -1,3 +1,4 @@
+from crypt import methods
 from flask import Flask, request, jsonify, redirect
 from ocr import parse_receipt
 import os
@@ -26,3 +27,10 @@ def ocr():
    print(push_ref.key)
 
    return jsonify({"id": push_ref.key}), 200
+
+# @app.route("/select", methods=["POST"])
+# def add_user_product():
+    
+@app.route("/redirect", methods=["GET"])
+def redirect_uri():
+    return redirect("exp://28-rrp.alwinyen.recit.exp.direct", 301)
