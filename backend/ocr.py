@@ -21,7 +21,7 @@ def detect_text(path):
 
     image = vision.Image(content=content)
 
-    response = client.text_detection(image=image)
+    response = client.document_text_detection(image=image)
     texts = response.text_annotations
 
     bounds = []
