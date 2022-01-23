@@ -32,6 +32,8 @@ We learned how to handle realtime data using Firebase and React-Native, where fr
 - Add user account system to share with groups easier.
 - Link to banking API (i.e., Zelle, Venmo) to send money through Recit.
 
+
+# Developer
 ### Prerequisites
 
 * python3.8
