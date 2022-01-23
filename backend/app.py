@@ -55,7 +55,7 @@ def deselect_product():
 
 @app.route("/redirect", methods=["GET"])
 def redirect_uri():
-    id = request.args.get("receipt_id")
+    id = request.args.get("receiptId")
     return redirect("exp://28-rrp.alwinyen.recit.exp.direct/--/login/" + id, 301)
 
 
