@@ -22,9 +22,9 @@ def ocr():
     file = request.files["file"]
     filename = "./imgs/" + file.filename
     file.save(filename)
-    image = Image.open(filename)
-    fixed_image = ImageOps.exif_transpose(image)
-    fixed_image.save(filename, quality=30) 
+    # image = Image.open(filename)
+    # fixed_image = ImageOps.exif_transpose(image)
+    # fixed_image.save(filename, quality=30) 
     
     result = parse_receipt(filename)
     print(result)
