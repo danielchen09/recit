@@ -60,7 +60,8 @@ def add_user(receipts_id, product_idx, name, qty):
     if "users" in data:
         users = data["users"]
 
-    if (index := get_user(users)) == -1:
+    index = get_user(users)
+    if index == -1:
         users.append({"name": name, "qty": 0})
     
     users[index]["qty"] += 1
