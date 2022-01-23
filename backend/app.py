@@ -30,7 +30,16 @@ def ocr():
 
 
 @app.route("/select", methods=["POST"])
-def add_user_product():
+def select_product():
+    data = request.get_json()
+    add_user(data["receipt_id"], data["product_idx"],
+             data["name"])
+
+    return '', 200
+
+
+@app.route("/deselect", methods=["POST"])
+def deselect_product():
     data = request.get_json()
     add_user(data["receipt_id"], data["product_idx"],
              data["name"])

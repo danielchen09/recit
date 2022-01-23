@@ -68,3 +68,17 @@ def add_user(receipts_id, product_idx, name):
 
     ref.child("users").set(users)
 
+
+def remove_user(receipts_id, product_idx, name):
+    ref = db.reference("/receipts/" + receipts_id +
+                       "/products/" + product_idx + "/")
+    data = ref.get()
+    users = data["users"]
+
+    index = get_user(users, name)
+    if index == -1:
+        users[index]["qty"] -= 1
+        if users[index]["qty"] == 0:
+            users.pop(index)
+
+    ref.child("users").set(users)
