@@ -2,7 +2,7 @@ from crypt import methods
 from flask import Flask, request, jsonify, redirect
 from ocr import parse_receipt
 import os
-from utils import setup_firebase, write_ocr, add_user, remove_user, add_user_to_receipt
+from utils import setup_firebase, write_ocr, add_user, remove_user, add_user_to_receipt, set_done
 from PIL import Image, ImageOps
 
 
@@ -70,4 +70,4 @@ def add_receipt_user():
 @app.route("/done", methods=["POST"])
 def set_done():
     data = request.get_json()
-    set_receipt_to_done(data["receipt_id"])
+    set_done(data["receipt_id"])
