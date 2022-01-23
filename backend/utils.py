@@ -93,7 +93,7 @@ def add_user_to_receipt(receipt_id, name):
         users.append(name)
         ref.child("users").set(users)
 
-def set_done(receipt_id):
+def set_receipt_to_done(receipt_id):
     ref = db.reference("/receipts/" + receipt_id + "/")
     ref.child("done").set(True)
 
