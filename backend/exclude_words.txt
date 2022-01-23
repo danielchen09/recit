@@ -7,3 +7,7 @@ sub-total
 subtotal
 discount
 discounts
+payment
+balance
+cash
+change
